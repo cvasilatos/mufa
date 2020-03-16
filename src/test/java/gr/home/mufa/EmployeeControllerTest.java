@@ -1,30 +1,58 @@
 package gr.home.mufa;
 
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.assertj.core.util.Arrays;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.testcontainers.containers.GenericContainer;
 
-@RunWith(SpringRunner.class)
-@DataJpaTest
-public class SomeTest {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
-    @ClassRule
-    public static GenericContainer redis = new GenericContainer("mongo:latest")
-                    .withExposedPorts(27017);
+
+@DataMongoTest
+public class EmployeeControllerTest {
+
+//    @ClassRule
+//    public static GenericContainer redis = new GenericContainer("mongo:3.2.4")
+//                    .withExposedPorts(27017);
+//
+//    @BeforeEach
+//    public void setUp() {
+//        String address = redis.getContainerIpAddress();
+//        Integer port = redis.getFirstMappedPort();
+//
+//        MongoCredential credential = new MongoCredential(address, port);
+//        underTest = new MongoCredentialWithCache(credential);
+//    }
+//    @Autowired
+//    private EmployeeController ec;
 
     @Autowired
-    private EmployeeController ec;
+    private MongoTemplate mt;
+
+    @Autowired
+    private EmployeeRepository er;
 
     @Test
-    public void someTestMethod(@Autowired MongoTemplate mongoTemplate) {
-        mongoTemplate.findAll(Employee.class);
-        System.out.println("LALALALALALALA");
-        assert (true);
+    @DisplayName("Get validation")
+    public void someTestMethod() {
+        System.out.println("Test --- 2");
+        Assertions.assertEquals(Optional.empty(), er.findById(1L));
+    }
+
+    @Test
+    @DisplayName("Insertion validation")
+    public void insertTestMethod() {
+        Employee employee = new Employee("test", "admin");
+        employee = mt.insert(employee);
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee);
+        System.out.println("Test --- 2");
+        Assertions.assertSame(employees, er.findByName("test"));
     }
 }

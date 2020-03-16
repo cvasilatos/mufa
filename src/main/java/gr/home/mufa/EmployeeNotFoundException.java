@@ -1,4 +1,4 @@
-package gr.home.mufa.payroll;
+package gr.home.mufa;
 
 class EmployeeNotFoundException extends RuntimeException {
 

@@ -1,16 +1,13 @@
-package gr.home.mufa.payroll;
+package gr.home.mufa;
 
-import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Data
-@Entity
+@Document
 class Employee {
 
-    private @Id @GeneratedValue Long id;
+    private @Id String id;
     private String name;
     private String role;
 
