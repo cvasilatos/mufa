@@ -4,3 +4,8 @@ gradle/
 .gradle/
 gradle.bat
 gradlew
+.classpath
+.project
+.settings/
+bin/
+
